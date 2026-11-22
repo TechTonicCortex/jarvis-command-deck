@@ -1,0 +1,674 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Jarvis Command Deck</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ink:        #eef2f1;
+    --ink-1:      #10151c;
+    --ink-2:      #4c5760;
+    --ink-3:      #7c8790;
+    --line:       #d6ddda;
+    --panel:      #ffffff;
+    --amber:      #b9740f;
+    --amber-ink:  #7a4c08;
+    --cyan:       #1f7a86;
+    --violet:     #6c4fb0;
+    --violet-ink: #4d3580;
+    --chip-bg:    #eef1ee;
+    --danger-bg:  #fbeee2;
+    --danger-line:#e3b785;
+    --danger-ink: #8a4a12;
+    --shadow: 0 1px 2px rgba(16,21,28,0.04);
+    color-scheme: light;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink:        #dde4e2;
+      --ink-1:      #f2f5f4;
+      --ink-2:      #a7b2b0;
+      --ink-3:      #798481;
+      --line:       #2a3330;
+      --panel:      #141b1e;
+      --amber:      #e8a53d;
+      --amber-ink:  #f3c579;
+      --cyan:       #5fc2cd;
+      --violet:     #a794e0;
+      --violet-ink: #c5b6ec;
+      --chip-bg:    #1a2225;
+      --danger-bg:  #241a10;
+      --danger-line:#4a3116;
+      --danger-ink: #e8a778;
+      --shadow: 0 1px 3px rgba(0,0,0,0.35);
+      color-scheme: dark;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ink:        #dde4e2;
+    --ink-1:      #f2f5f4;
+    --ink-2:      #a7b2b0;
+    --ink-3:      #798481;
+    --line:       #2a3330;
+    --panel:      #141b1e;
+    --amber:      #e8a53d;
+    --amber-ink:  #f3c579;
+    --cyan:       #5fc2cd;
+    --violet:     #a794e0;
+    --violet-ink: #c5b6ec;
+    --chip-bg:    #1a2225;
+    --danger-bg:  #241a10;
+    --danger-line:#4a3116;
+    --danger-ink: #e8a778;
+    --shadow: 0 1px 3px rgba(0,0,0,0.35);
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+
+  body {
+    background: var(--body-bg);
+    color: var(--ink);
+    font-family: "Public Sans", -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.55;
+  }
+  :root { --body-bg: #eef2f1; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --body-bg: #0f1418; }
+  }
+  :root[data-theme="dark"] { --body-bg: #0f1418; }
+
+  .wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 6rem;
+  }
+
+  /* ---------- header / legend ---------- */
+
+  .masthead {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    border-bottom: 2px solid var(--ink-1);
+    padding-bottom: 1.1rem;
+    margin-bottom: 0.9rem;
+  }
+  .masthead .eyebrow {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--amber);
+    font-weight: 600;
+  }
+  h1 {
+    font-family: "Archivo", sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.9rem, 4vw, 2.5rem);
+    letter-spacing: -0.01em;
+    margin: 0.15rem 0 0;
+    color: var(--ink-1);
+    text-wrap: balance;
+  }
+  .masthead-meta {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.78rem;
+    color: var(--ink-3);
+    text-align: right;
+  }
+
+  .intro {
+    font-size: 1rem;
+    color: var(--ink-2);
+    max-width: 62ch;
+    margin: 1rem 0 1.8rem;
+  }
+  .intro strong { color: var(--ink-1); font-weight: 600; }
+  .wake-tag {
+    font-family: "JetBrains Mono", monospace;
+    background: var(--chip-bg);
+    border: 1px solid var(--line);
+    padding: 0.05em 0.45em;
+    border-radius: 4px;
+    color: var(--amber-ink);
+    font-weight: 600;
+  }
+
+  /* legend */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 1.4rem;
+    padding: 0.9rem 1.1rem;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--panel);
+    box-shadow: var(--shadow);
+    margin-bottom: 2.6rem;
+    font-size: 0.82rem;
+    color: var(--ink-2);
+  }
+  .legend-item { display: flex; align-items: center; gap: 0.5rem; }
+  .legend .swatch {
+    width: 0.62rem; height: 0.62rem; border-radius: 2px; flex: none;
+  }
+  .swatch.plain  { background: var(--ink-3); }
+  .swatch.school { background: var(--cyan); }
+  .swatch.personal { background: var(--amber); }
+  .swatch.confirm { background: var(--danger-ink); }
+  .swatch.gesture { background: var(--violet); }
+
+  /* ---------- section panels ---------- */
+
+  section.panel {
+    position: relative;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--panel);
+    box-shadow: var(--shadow);
+    padding: 1.6rem 1.7rem 1.8rem;
+    margin-bottom: 1.6rem;
+  }
+  section.panel::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 1.7rem;
+    width: 2.1rem; height: 3px;
+    background: var(--amber);
+    border-radius: 0 0 3px 3px;
+  }
+  section.panel.gesture::before { background: var(--violet); }
+
+  .panel-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.3rem;
+  }
+  h2 {
+    font-family: "Archivo", sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: 0.01em;
+    color: var(--ink-1);
+    margin: 0.6rem 0 0;
+  }
+  .panel-num {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.72rem;
+    color: var(--ink-3);
+    letter-spacing: 0.08em;
+  }
+  .panel-note {
+    font-size: 0.86rem;
+    color: var(--ink-2);
+    margin: 0.15rem 0 1.1rem;
+    max-width: 68ch;
+  }
+
+  /* ---------- command rows (simple list sections) ---------- */
+
+  .cmd-list { display: flex; flex-direction: column; gap: 0.55rem; }
+  .cmd-row {
+    display: grid;
+    grid-template-columns: minmax(180px, 280px) 1fr;
+    gap: 0.4rem 1rem;
+    align-items: baseline;
+    padding: 0.5rem 0;
+    border-top: 1px solid var(--line);
+  }
+  .cmd-row:first-child { border-top: none; padding-top: 0; }
+  .say {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.86rem;
+    font-weight: 500;
+    color: var(--ink-1);
+    background: var(--chip-bg);
+    border-radius: 5px;
+    padding: 0.18rem 0.55rem;
+    display: inline-block;
+    width: fit-content;
+  }
+  .say .wake { color: var(--amber-ink); }
+  .say-group { display: flex; flex-direction: column; gap: 0.3rem; }
+  .desc { font-size: 0.88rem; color: var(--ink-2); }
+  .also { font-size: 0.76rem; color: var(--ink-3); margin-top: 0.1rem; }
+  .also code {
+    font-family: "JetBrains Mono", monospace;
+    background: none;
+    color: var(--ink-3);
+  }
+
+  .confirm-tag {
+    display: inline-block;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--danger-ink);
+    background: var(--danger-bg);
+    border: 1px solid var(--danger-line);
+    border-radius: 4px;
+    padding: 0.05em 0.4em;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+  }
+
+  /* ---------- google services table ---------- */
+
+  .svc-table-wrap { overflow-x: auto; }
+  table.svc {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    min-width: 640px;
+  }
+  table.svc th {
+    text-align: left;
+    font-family: "Archivo", sans-serif;
+    font-weight: 700;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    padding: 0 0.6rem 0.5rem;
+    border-bottom: 2px solid var(--ink-1);
+  }
+  table.svc th:first-child { padding-left: 0; }
+  table.svc td {
+    padding: 0.55rem 0.6rem;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  table.svc td:first-child { padding-left: 0; }
+  table.svc tr:last-child td { border-bottom: none; }
+  .svc-name {
+    font-family: "Archivo", sans-serif;
+    font-weight: 700;
+    color: var(--ink-1);
+    font-size: 0.88rem;
+    white-space: nowrap;
+  }
+  .svc-chip {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.78rem;
+    color: var(--ink-1);
+    background: var(--chip-bg);
+    border-radius: 5px;
+    padding: 0.15rem 0.5rem;
+    display: inline-block;
+    white-space: nowrap;
+  }
+  .svc-chip.dim { color: var(--ink-3); background: none; padding-left: 0; font-style: italic; }
+  .svc-alias { display: block; font-size: 0.7rem; color: var(--ink-3); margin-top: 0.25rem; }
+
+  /* ---------- flow diagram (confirmation / gesture) ---------- */
+
+  .flow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.8rem;
+    margin: 0.9rem 0 0.4rem;
+  }
+  .flow .step {
+    background: var(--chip-bg);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 0.35rem 0.65rem;
+    color: var(--ink-1);
+  }
+  .flow .step.danger {
+    background: var(--danger-bg);
+    border-color: var(--danger-line);
+    color: var(--danger-ink);
+    font-weight: 600;
+  }
+  .flow .step.gesture {
+    background: color-mix(in srgb, var(--violet) 14%, var(--panel));
+    border-color: var(--violet);
+    color: var(--violet-ink);
+    font-weight: 600;
+  }
+  .flow .arrow { color: var(--ink-3); font-size: 0.9rem; }
+
+  /* ---------- footer ---------- */
+
+  footer {
+    margin-top: 2.5rem;
+    padding-top: 1.3rem;
+    border-top: 1px solid var(--line);
+    font-size: 0.78rem;
+    color: var(--ink-3);
+    font-family: "JetBrains Mono", monospace;
+  }
+
+  @media (max-width: 620px) {
+    .cmd-row { grid-template-columns: 1fr; }
+    .masthead { flex-direction: column; align-items: flex-start; }
+    .masthead-meta { text-align: left; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="masthead">
+    <div>
+      <div class="eyebrow">Voice Command Reference</div>
+      <h1>Jarvis Command Deck</h1>
+    </div>
+    <div class="masthead-meta">wake word: <span class="wake-tag">jarvis</span><br>105 commands + hand control · Windows</div>
+  </div>
+
+  <p class="intro">
+    Say <span class="wake-tag">Jarvis</span>, wait for a reply, then say a command &mdash;
+    or say the whole thing in one breath, e.g. <span class="wake-tag">Jarvis, open gmail</span>.
+    Every line below shows exactly what to say.
+  </p>
+
+  <div class="legend">
+    <div class="legend-item"><span class="swatch plain"></span> no account specified &mdash; Chrome asks you to pick</div>
+    <div class="legend-item"><span class="swatch school"></span> school (hdsb.ca) account</div>
+    <div class="legend-item"><span class="swatch personal"></span> personal (Aadit) account</div>
+    <div class="legend-item"><span class="swatch confirm"></span> asks you to confirm before running</div>
+    <div class="legend-item"><span class="swatch gesture"></span> hand gesture, not a voice command</div>
+  </div>
+
+  <!-- 1. GETTING STARTED -->
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Getting started</h2>
+      <span class="panel-num">01</span>
+    </div>
+    <div class="cmd-list">
+      <div class="cmd-row">
+        <span class="say"><span class="wake">Jarvis</span></span>
+        <span class="desc">Wakes it up &mdash; it replies "Yes?" (or similar), then listens for your command.</span>
+      </div>
+      <div class="cmd-row">
+        <span class="say">stop listening</span>
+        <span class="desc">Shuts Jarvis down for this session. Also accepts <code class="say" style="padding:0 .3em">exit</code>, <code class="say" style="padding:0 .3em">quit</code>, <code class="say" style="padding:0 .3em">goodbye</code>.</span>
+      </div>
+      <div class="cmd-row">
+        <span class="say">search for &lt;anything&gt;</span>
+        <span class="desc">Google search. Also works as "search google for &hellip;" or "google &lt;a question&gt;".</span>
+      </div>
+      <div class="cmd-row">
+        <span class="say">open &lt;anything else&gt;</span>
+        <span class="desc">Not on this sheet? Jarvis guesses: tries it as an installed app, then <code>&lt;word&gt;.com</code>, then falls back to a web search.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. SITE-SCOPED SEARCH -->
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Site-scoped search</h2>
+      <span class="panel-num">02</span>
+    </div>
+    <p class="panel-note">
+      <span class="say" style="font-size:.8rem">search &lt;site&gt; for &lt;query&gt;</span> searches
+      <em>inside</em> that site &mdash; its own search bar, not a Google web search. Add
+      <span class="say" style="font-size:.8rem">school</span> / <span class="say" style="font-size:.8rem">personal</span>
+      right after "search" to pick the account, e.g. "search school gmail for the quiz email".
+    </p>
+    <div class="cmd-list">
+      <div class="cmd-row"><span class="say">search youtube for &hellip;</span><span class="desc">YouTube's own search results.</span></div>
+      <div class="cmd-row"><span class="say">search drive for &hellip;</span><span class="desc">Searches your Google Drive. "search docs / sheets / slides for &hellip;" all do the same thing &mdash; Google has no clean way to search just one file type by URL.</span></div>
+      <div class="cmd-row"><span class="say">search gmail for &hellip;</span><span class="desc">Searches your email. Also "search mail for &hellip;".</span></div>
+      <div class="cmd-row"><span class="say">search maps for &hellip;</span><span class="desc">Google Maps search.</span></div>
+      <div class="cmd-row"><span class="say">search amazon / reddit / wikipedia for &hellip;</span><span class="desc">Each site's own search.</span></div>
+      <div class="cmd-row"><span class="say">search spotify for &hellip;</span><span class="desc">Opens results in the Spotify desktop app if installed, otherwise the web player.</span></div>
+    </div>
+  </section>
+
+  <!-- 3. GOOGLE & WORKSPACE -->
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Google &amp; Workspace</h2>
+      <span class="panel-num">03</span>
+    </div>
+    <p class="panel-note">
+      The pattern is always the same: <span class="say" style="font-size:.8rem">open &lt;service&gt;</span> →
+      <span class="say" style="font-size:.8rem">open school &lt;service&gt;</span> →
+      <span class="say" style="font-size:.8rem">open personal &lt;service&gt;</span>. Where a row shows "also &hellip;", that's a second accepted phrasing.
+    </p>
+    <div class="svc-table-wrap">
+      <table class="svc">
+        <thead>
+          <tr><th>Service</th><th><span class="legend-item"><span class="swatch plain"></span>plain</span></th><th><span class="legend-item"><span class="swatch school"></span>school</span></th><th><span class="legend-item"><span class="swatch personal"></span>personal</span></th></tr>
+        </thead>
+        <tbody id="svc-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 4. APPS -->
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Apps &amp; folders</h2>
+      <span class="panel-num">04</span>
+    </div>
+    <div class="cmd-list">
+      <div class="cmd-row"><span class="say">open chrome</span><span class="desc">Launches Chrome with no specific page.</span></div>
+      <div class="cmd-row"><span class="say">open claude</span><span class="desc">Launches the Claude desktop app.</span></div>
+      <div class="cmd-row"><span class="say">open notepad</span><span class="desc">Windows Notepad.</span></div>
+      <div class="cmd-row"><span class="say">open calculator</span><span class="desc">Windows Calculator.</span></div>
+      <div class="cmd-row"><span class="say">open spotify</span><span class="desc">Launches Spotify.</span></div>
+      <div class="cmd-row"><span class="say">open downloads</span><span class="desc">Opens your Downloads folder in File Explorer.</span></div>
+    </div>
+  </section>
+
+  <!-- 5. SYSTEM CONTROL -->
+  <section class="panel">
+    <div class="panel-head">
+      <h2>System control</h2>
+      <span class="panel-num">05</span>
+    </div>
+    <div class="cmd-list">
+      <div class="cmd-row"><span class="say">lock computer</span><span class="desc">Locks your PC instantly. Also "lock my computer" / "lock the computer".</span></div>
+      <div class="cmd-row"><span class="say">volume up</span><span class="desc">Raises system volume a few notches.</span></div>
+      <div class="cmd-row"><span class="say">volume down</span><span class="desc">Lowers system volume.</span></div>
+      <div class="cmd-row"><span class="say">mute</span><span class="desc">Mutes/unmutes speaker output. Also "mute the volume".</span></div>
+      <div class="cmd-row"><span class="say">mute microphone</span><span class="desc">Mutes/unmutes your default mic. Also "mute my mic" / "mute the microphone". <span class="also">needs <code>pip install pycaw comtypes</code></span></span></div>
+      <div class="cmd-row"><span class="say-group" style="flex-direction:row;flex-wrap:wrap"><span class="say">play</span><span class="say">pause</span></span><span class="desc">Media play/pause for whatever has media focus. Also "play music" / "pause music".</span></div>
+      <div class="cmd-row"><span class="say">next song</span><span class="desc">Skips a track. Also "skip song" / "next track".</span></div>
+      <div class="cmd-row"><span class="say">previous song</span><span class="desc">Previous track. Also "last song" / "previous track".</span></div>
+      <div class="cmd-row"><span class="say">take a screenshot</span><span class="desc">Saves a PNG into a <code>screenshots</code> folder next to jarvis.py. <span class="also">needs <code>pip install Pillow</code></span></span></div>
+      <div class="cmd-row"><span class="say-group"><span class="say">pause hand control</span><span class="say">resume hand control</span></span><span class="desc">Toggles the webcam hand-gesture window control (panel 06) without ending its background process. Also "stop hand control" / "start hand control". Only does anything if that feature is set up &amp; running.</span></div>
+      <div class="cmd-row"><span class="say">sleep<span class="confirm-tag">confirm</span></span><span class="desc">Puts the PC to sleep. Also "go to sleep" / "put the computer to sleep".</span></div>
+      <div class="cmd-row"><span class="say">shut down<span class="confirm-tag">confirm</span></span><span class="desc">Shuts the PC down. Also "shut down the computer".</span></div>
+      <div class="cmd-row"><span class="say">restart<span class="confirm-tag">confirm</span></span><span class="desc">Restarts the PC. Also "restart the computer".</span></div>
+    </div>
+
+    <p class="panel-note" style="margin-top:1.3rem">How the confirm-tagged commands work &mdash; a mishearing can never trigger these on its own:</p>
+    <div class="flow">
+      <span class="step">"Jarvis, shut down"</span>
+      <span class="arrow">&rarr;</span>
+      <span class="step danger">"Say confirm to proceed"</span>
+      <span class="arrow">&rarr;</span>
+      <span class="step">"Jarvis, confirm"</span>
+      <span class="arrow">&rarr;</span>
+      <span class="step danger">shuts down</span>
+    </div>
+    <p class="panel-note" style="margin-top:0.6rem">Anything else instead of "confirm" cancels it &mdash; and if that "anything else" is a real command, Jarvis runs that instead.</p>
+  </section>
+
+  <!-- 6. HAND CONTROL -->
+  <section class="panel gesture">
+    <div class="panel-head">
+      <h2>Hand control <span style="font-weight:500;color:var(--ink-3);font-size:0.82rem">&mdash; webcam, no voice needed</span></h2>
+      <span class="panel-num">06</span>
+    </div>
+    <p class="panel-note">
+      A separate program (<code>jarvis_hand.py</code>) that watches your webcam and lets you
+      control windows with your hand &mdash; independent of the voice assistant, runs
+      continuously in the background from unlock, same as Jarvis itself. Five gestures, every
+      one a hand shape held steady for a beat (never a fast swipe) &mdash; that dwell, not
+      speed, is what tells a deliberate gesture apart from your hand just passing through a
+      shape.
+    </p>
+
+    <div class="cmd-list" style="margin-top:0.4rem">
+      <div class="cmd-row">
+        <span class="say-group"><span class="say">fist, over a window's middle</span></span>
+        <span class="desc"><strong style="color:var(--ink-1)">Move.</strong> Close into a fist to grab, move your hand, open to drop.</span>
+      </div>
+      <div class="cmd-row">
+        <span class="say-group"><span class="say">fist, near an edge/corner</span></span>
+        <span class="desc"><strong style="color:var(--ink-1)">Resize.</strong> Same grab, but near a window's border instead of its middle &mdash; drags that edge. Won't shrink below a minimum size.</span>
+      </div>
+      <div class="cmd-row">
+        <span class="say-group"><span class="say">point (index only), hold</span></span>
+        <span class="desc"><strong style="color:var(--ink-1)">Maximize / restore.</strong> Hold steady over a window &mdash; toggles it. Hold again to flip back.</span>
+      </div>
+      <div class="cmd-row">
+        <span class="say-group"><span class="say">peace sign (index+middle), hold</span></span>
+        <span class="desc"><strong style="color:var(--ink-1)">Minimize.</strong> Get it back via the window switcher below (Alt+Tab shows minimized windows too).</span>
+      </div>
+      <div class="cmd-row">
+        <span class="say-group"><span class="say">three fingers, hold</span></span>
+        <span class="desc"><strong style="color:var(--ink-1)">Close.</strong> Two-stage &mdash; a warning beep, then it closes a beat later (same as clicking its own X). Let go before/at the beep to cancel.</span>
+      </div>
+      <div class="cmd-row">
+        <span class="say-group"><span class="say">point, at the screen's far left/right edge</span></span>
+        <span class="desc"><strong style="color:var(--ink-1)">Switch windows.</strong> Like Alt+Tab &mdash; works no matter what's under your hand there. Keep holding to keep cycling.</span>
+      </div>
+    </div>
+
+    <p class="panel-note" style="margin-top:1.1rem">How the close gesture's safety valve works &mdash; same "let go to cancel" idea as the voice assistant's shutdown confirmation:</p>
+    <div class="flow">
+      <span class="step gesture">hold three fingers over a window</span>
+      <span class="arrow">&rarr;</span>
+      <span class="step danger">warning beep</span>
+      <span class="arrow">&rarr;</span>
+      <span class="step gesture">keep holding a beat longer</span>
+      <span class="arrow">&rarr;</span>
+      <span class="step danger">closes</span>
+    </div>
+    <p class="panel-note" style="margin-top:0.6rem">Letting go at any point before it closes cancels it &mdash; nothing happens.</p>
+
+    <div class="cmd-list" style="margin-top:1.2rem">
+      <div class="cmd-row"><span class="say">pause hand control</span><span class="desc">Voice command (see panel 05) &mdash; stops tracking your hand without killing the process. "resume hand control" turns it back on.</span></div>
+      <div class="cmd-row"><span class="say" style="background:none;padding-left:0">Q</span><span class="desc">While the optional preview window is showing (<code>show_preview_window</code> in <code>jarvis_hand_config.json</code>), press Q in that window to quit manually.</span></div>
+    </div>
+    <p class="panel-note" style="margin-top:1rem">
+      Tuning knobs live in <code>jarvis_hand_config.json</code> &mdash; <code>fist_threshold</code> /
+      <code>gesture_debounce_frames</code> for grab reliability, <code>resize_margin_px</code> for
+      move-vs-resize, <code>pose_dwell_frames</code> / <code>pose_stability_px</code> for how long
+      and how steady a hold needs to be, <code>close_warn_frames</code> / <code>close_dwell_frames</code>
+      for the close safety valve, and <code>edge_switch_fraction</code> / <code>edge_switch_dwell_frames</code>
+      for the window switcher. See README.md's "Hand Control" section for the full walkthrough &mdash;
+      camera feel needs tuning on your own machine, it can't be pre-tuned remotely.
+    </p>
+    <p class="panel-note">
+      Fully local &mdash; unlike voice commands, no video is ever sent anywhere; hand tracking
+      runs entirely on your own machine via OpenCV + MediaPipe.
+    </p>
+  </section>
+
+  <!-- 7. EMAIL -->
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Email drafting</h2>
+      <span class="panel-num">07</span>
+    </div>
+    <p class="panel-note">Opens a Gmail draft with recipient/subject/body filled in &mdash; it never sends. Recipients come from the <code>contacts</code> list in jarvis_config.json.</p>
+    <div class="cmd-list">
+      <div class="cmd-row">
+        <span class="say">email &lt;contact&gt; saying &lt;message&gt;</span>
+        <span class="desc">e.g. <span class="say" style="font-size:.8rem">email mom saying I'll be home late</span></span>
+      </div>
+      <div class="cmd-row">
+        <span class="say">email &lt;contact&gt; about &lt;subject&gt; saying &lt;message&gt;</span>
+        <span class="desc">Adds a subject line too.</span>
+      </div>
+      <div class="cmd-row">
+        <span class="say">email school/personal &lt;contact&gt; saying &hellip;</span>
+        <span class="desc">Picks which Google account sends it &mdash; e.g. <span class="say" style="font-size:.8rem">email school teacher saying &hellip;</span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. PERSONALITY -->
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Personality &amp; notes</h2>
+      <span class="panel-num">08</span>
+    </div>
+    <div class="cmd-list">
+      <div class="cmd-row">
+        <span class="desc" style="grid-column:1/-1">Replies are varied on purpose &mdash; "Right away, sir," "On it," "As you wish, sir" &mdash; instead of one fixed line. Change or remove "sir" via <code>honorific</code> in jarvis_config.json.</span>
+      </div>
+      <div class="cmd-row">
+        <span class="desc" style="grid-column:1/-1">Startup greeting changes with time of day: "Good morning, sir" &hellip; "Burning the midnight oil, sir?" late at night.</span>
+      </div>
+      <div class="cmd-row">
+        <span class="desc" style="grid-column:1/-1"><strong style="color:var(--ink-1)">Heads up:</strong> "go to sleep" means <em>sleep the PC</em> (with confirmation), not stop listening. Use "stop listening" for that.</span>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    generated from jarvis_config.json &amp; jarvis_hand_config.json &middot; edit those files to add or change commands &middot; see README.md for full setup
+  </footer>
+
+</div>
+
+<script>
+  const SERVICES = [
+    { name: "Google",     plain: "open google",     school: "open school google",     personal: "open personal google" },
+    { name: "Gmail",      plain: "open gmail",       school: "open school gmail",       personal: "open personal gmail" },
+    { name: "Classroom",  plain: "open classroom",   plainAlias: "open google classroom", school: null, personal: null },
+    { name: "YouTube",    plain: "open youtube",     school: "open school youtube",     personal: "open personal youtube" },
+    { name: "Meet",       plain: "open meet",        plainAlias: "open google meet",    school: "open school meet",        personal: "open personal meet" },
+    { name: "Drive",      plain: "open drive",       plainAlias: "open google drive",   school: "open school drive",       personal: "open personal drive" },
+    { name: "Docs",       plain: "open docs",        plainAlias: "open google docs",    school: "open school docs",        personal: "open personal docs" },
+    { name: "Sheets",     plain: "open sheets",      plainAlias: "open google sheets",  school: "open school sheets",      personal: "open personal sheets" },
+    { name: "Slides",     plain: "open slides",      plainAlias: "open google slides",  school: "open school slides",      personal: "open personal slides" },
+    { name: "Forms",      plain: "open forms",       school: "open school forms",       personal: "open personal forms" },
+    { name: "Calendar",   plain: "open calendar",    plainAlias: "open google calendar",school: "open school calendar",    personal: "open personal calendar" },
+    { name: "Keep",       plain: "open keep",        plainAlias: "open google keep",    school: "open school keep",        personal: "open personal keep" },
+    { name: "Photos",     plain: "open photos",      plainAlias: "open google photos",  school: "open school photos",      personal: "open personal photos" },
+    { name: "Maps",       plain: "open maps",        plainAlias: "open google maps",    school: "open school maps",        personal: "open personal maps" },
+    { name: "Translate",  plain: "open translate",   plainAlias: "open google translate",school:"open school translate",   personal: "open personal translate" },
+    { name: "Contacts",   plain: "open contacts",    school: "open school contacts",    personal: "open personal contacts" },
+    { name: "Chat",       plain: "open chat",        plainAlias: "open google chat",    school: "open school chat",        personal: "open personal chat" },
+    { name: "News",       plain: "open news",        plainAlias: "open google news",    school: "open school news",        personal: "open personal news" },
+  ];
+
+  function chip(text) {
+    if (!text) return '<span class="svc-chip dim">&mdash;</span>';
+    return `<span class="svc-chip">${text}</span>`;
+  }
+
+  const rows = SERVICES.map(s => `
+    <tr>
+      <td class="svc-name">${s.name}</td>
+      <td>${chip(s.plain)}${s.plainAlias ? `<span class="svc-alias">also: ${s.plainAlias}</span>` : ""}</td>
+      <td>${chip(s.school)}</td>
+      <td>${chip(s.personal)}</td>
+    </tr>
+  `).join("");
+
+  document.getElementById("svc-body").innerHTML = rows;
+</script>
+
+</body></html>
